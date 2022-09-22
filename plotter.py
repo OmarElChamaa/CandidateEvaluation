@@ -24,32 +24,37 @@ def dataSimul() :
         outfile.write(simData)
 
 
+
+#il faut que cette fonction prennes en compte que le json existe mais soit vide aussi 
 def write_json(data,table,filename='sample.json'):
     print("writing")
+
+    dict = {
+        "Result" : [{
+        "Test" : data[0],
+        "Name" : data[1],
+        "Grade" : data[2]  
+        }]
+    }
+        
     if path.isfile(filename) is False: #on creer le json s'il n'existe pas  
         print("Creating json")
-        dict = {
-            "Result" : [{
-                "Test" : data[0],
-                "Name" : data[1],
-                "Grade" : data[2]  
-            }]
-        }
+        
         jsonStr =  json.dumps(dict)
         with open("sample.json", "w") as outfile: 
             outfile.write(jsonStr)
-    else : 
+    else :
         with open(filename) as infile:
-            # First we load existing data into a dict.
-            jString = json.load(infile)
-            dict = {
-                "Result" : [{
-                "Test" : data[0],
-                "Name" : data[1],
-                "Grade" : data[2]  
-                }]
-            }
-            jString["Result"].append(dict)
+            #on verifie si le json est vide ou pas 
+            if path.getsize(filename) == 0 :
+                print("The file is empty: ")
+                
+            else:
+                # First we load existing data into a dict.
+                jString = json.load(infile)
+                
+                jString = jString["Result"].append(dict)
+
             jString =  json.dumps(dict)
         with open("sample.json", "w") as outfile: 
             outfile.write(jString)
