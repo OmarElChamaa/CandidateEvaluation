@@ -24,35 +24,72 @@ def dataSimul() :
         outfile.write(simData)
 
 
-
-
-
-def write_json(data,table, filename='sample.json'):
+def write_json(data,table,filename='sample.json'):
     print("writing")
-    dict = {}
-    if path.isfile(filename) is False: #on creer le json s'il n'existe pas
-        with open("sample.json", "w") as outfile:
-            data ={
-                table :
-                [{
-                    data
+    if path.isfile(filename) is False: #on creer le json s'il n'existe pas  
+        print("Creating json")
+        dict = {
+            "Result" : [{
+                "Test" : data[0],
+                "Name" : data[1],
+                "Grade" : data[2]  
+            }]
+        }
+        jsonStr =  json.dumps(dict)
+        with open("sample.json", "w") as outfile: 
+            outfile.write(jsonStr)
+    else : 
+        with open(filename) as infile:
+            # First we load existing data into a dict.
+            jString = json.load(infile)
+            dict = {
+                "Result" : [{
+                "Test" : data[0],
+                "Name" : data[1],
+                "Grade" : data[2]  
                 }]
             }
-            json.dump(dict, outfile,indent =4)
-            outfile.write(data)
-            
-    else :
-        #with open(filename) as file:
-        with open(filename, 'a+') as infile, open(filename, 'w') as outfile:
-            # First we load existing data into a dict.
-            # dict = json.load(file)
-            try:
-                dict = json.load(infile)
-                dict[table].append(data)
-                json.dump(dict, outfile)
+            jString["Result"].append(dict)
+            jString =  json.dumps(dict)
+        with open("sample.json", "w") as outfile: 
+            outfile.write(jString)
 
-            except JSONDecodeError:
-                pass
+# def write_json(data,table, filename='sample.json'):
+#     print("writing")
+#     dict = {}
+#     jString=[]
+#     if path.isfile(filename) is False: #on creer le json s'il n'existe pas  
+#         print("Creating json")
+#         dict = {
+#             "Result" : [{
+#                 "Test" : data[0],
+#                 "Name" : data[1],
+#                 "Grade" : data[2]  
+#             }]
+#         }
+#         jsonStr =  json.dumps(dict)
+#         with open("sample.json", "w") as outfile: 
+#             outfile.write(jsonStr)       
+#     else :
+#         with open(filename) as infile:
+#             # First we load existing data into a dict.
+#             jString = json.load(infile)
+#             try:
+#                 dict = {
+#                     "Test" : data[0],
+#                     "Name" : data[1],
+#                     "Grade" : data[2]  
+#                 }
+#                 print("here")
+#                 jString.append(dict)
+
+#                 with open(filename,'w') as outfile :
+#                     jString = json.dumps(dict)
+#                     outfile.write(jString) 
+
+#             except JSONDecodeError:
+#                 print("here 3")
+#                 pass
             
             # Join new_data with file_data inside emp_details
         
@@ -97,11 +134,15 @@ def jsonPlot(fileName) :
     plot.show()
 #dict = dataSimul()
 
-y = {   
-    'Name': "Khaled", 
-    'Grade' :4 , 
-    }
-write_json(y,"Test 1")
+y = ["Test 1","Omar",5]
+x= ["Test 1","man",3]
+p= ["Test 1","patrick",9]
+
+
+print(y)
+write_json(y,"Result")
+write_json(x,"Result")
+# write_json(p,"Result")
 
 # ce test fonctionne 
 # if "Test 1" in dict :
