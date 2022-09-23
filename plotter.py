@@ -6,118 +6,97 @@ from os import path
 import matplotlib.pyplot as plot
 import pandas as pd
 from json.decoder import JSONDecodeError
-# import sqlite3
 
-listObj = []
+class Candidat : 
+    def __init__(self,name,grade):
+        self.name = name 
+        self.grade = grade 
+    #fonction qui sert a mettre en format dic pour integration facile dans le json 
+    def toData(c): 
+        data ={   
+            'Name': c.name, 
+            'Grade' :c.grade 
+        }
+        return data
+    
 
-def dataSimul() :
+class Test : 
+    def __init__(self,name,nbQuestions):
+        self.name = name 
+        self.nbQuestions = nbQuestions
+    #fonction qui sert a mettre en format dic pour integration facile dans le json 
+    def toData(t):
+        data ={   
+            'Name': t.name, 
+            'nbQuestions' : t.nbQuestions
+        }
+        return data
 
-    dict = {
-        "Test 1" :
-        [{
-            'Name': "Omar", 
-            'Grade' : 3 , 
-        }]
-    }
-    simData=json.dumps(dict)
-    with open("sample.json", "w") as outfile:
-        outfile.write(simData)
+# ce test fonctionne 
+# if "Test 1" in dict :
+#     print("is present")
+# else :
+#     print("not present")
 
 
-
-#il faut que cette fonction prennes en compte que le json existe mais soit vide aussi 
+#il faut que cette fonction prenne en compte que le json existe mais soit vide aussi 
+#on peut aussi check si la table existe deja, et la creer si ce n'est pas le cas
+#au lieu d'avoir result comme nom de table j'aimerais que ca soit le nom du test
 def write_json(data,table,filename='sample.json'):
     print("writing")
-
     dict = {
-        "Result" : [{
-        "Test" : data[0],
-        "Name" : data[1],
-        "Grade" : data[2]  
+        table : [{
+        "Name" : data[0],
+        "Grade" : data[1]  
         }]
     }
-        
     if path.isfile(filename) is False: #on creer le json s'il n'existe pas  
         print("Creating json")
-        
         jsonStr =  json.dumps(dict)
         with open("sample.json", "w") as outfile: 
             outfile.write(jsonStr)
     else :
-        with open(filename) as infile:
+        with open(filename,'r+') as infile:
             #on verifie si le json est vide ou pas 
             if path.getsize(filename) == 0 :
                 print("The file is empty: ")
-                
-            else:
+                jsonStr = dict 
+                jsonStr =  json.dumps(jsonStr)
+            else: #il faudra tester ici si la tale existe deja ou pas 
+                if table in dict :
+                    print("The table",table,"is in the dictionnary")
+                    dict = {
+                        "Name" : data[0],
+                        "Grade" : data[1]  
+                    }
+
+                print("Appending")
                 # First we load existing data into a dict.
-                jString = json.load(infile)
+                jsonStr = json.load(infile)
+                jsonStr[table].append(dict)
+                #jsonStr["Result"] = dict
+                print(jsonStr)
                 
-                jString = jString["Result"].append(dict)
+                #jsonStr["Result"].append(dict)
 
-            jString =  json.dumps(dict)
+                jsonStr =  json.dumps(jsonStr)
         with open("sample.json", "w") as outfile: 
-            outfile.write(jString)
-
-# def write_json(data,table, filename='sample.json'):
-#     print("writing")
-#     dict = {}
-#     jString=[]
-#     if path.isfile(filename) is False: #on creer le json s'il n'existe pas  
-#         print("Creating json")
-#         dict = {
-#             "Result" : [{
-#                 "Test" : data[0],
-#                 "Name" : data[1],
-#                 "Grade" : data[2]  
-#             }]
-#         }
-#         jsonStr =  json.dumps(dict)
-#         with open("sample.json", "w") as outfile: 
-#             outfile.write(jsonStr)       
-#     else :
-#         with open(filename) as infile:
-#             # First we load existing data into a dict.
-#             jString = json.load(infile)
-#             try:
-#                 dict = {
-#                     "Test" : data[0],
-#                     "Name" : data[1],
-#                     "Grade" : data[2]  
-#                 }
-#                 print("here")
-#                 jString.append(dict)
-
-#                 with open(filename,'w') as outfile :
-#                     jString = json.dumps(dict)
-#                     outfile.write(jString) 
-
-#             except JSONDecodeError:
-#                 print("here 3")
-#                 pass
-            
-            # Join new_data with file_data inside emp_details
-        
-
-    #dict[table].update(data)
-    #dict[table] = data
-        # convert back to json.
-    # with open(filename, 'w') as f:
-    #         json.dump(dict, f,indent =4)
-    
+            outfile.write(jsonStr)
 
 
-
-
-def jsonPlot(fileName) :
+def jsonPlot(fileName,table='Test 1') :
     data = json.load(open(fileName, 'r'))
-    #print( data['candidats'])
-
-    #data = data['candidats']
-
-
-    xAxis = [key for key, value in data.items()]
-    yAxis = [value for key, value in data.items()]
+    print("data is ",data[table] )
+    data = data[table] 
+    xAxis=[]
+    yAxis=[]
+    for result in data :
+        print ("Candidate",result['Name'],"Grade",result['Grade'])
+        xAxis.append(result['Name'])
+        yAxis.append(result['Grade'])
+        
+    # xAxis = [key for key, value in data.items()]
+    # yAxis = [value for key, value in data.items()]
 
     plot.grid(True)
     print(xAxis)
@@ -137,91 +116,19 @@ def jsonPlot(fileName) :
     print("la moyenne de ce test est de : " ,average)
     plot.axhline(y=average, color ='r',linestyle='-')
     plot.show()
-#dict = dataSimul()
-
-y = ["Test 1","Omar",5]
-x= ["Test 1","man",3]
-p= ["Test 1","patrick",9]
 
 
-print(y)
-write_json(y,"Result")
-write_json(x,"Result")
-# write_json(p,"Result")
-
-# ce test fonctionne 
-# if "Test 1" in dict :
-#     print("is present")
-# else :
-#     print("not present")
-# y = {   
-#     'Name': "Khaled", 
-#     'Grade' :4 , 
-#     }
+y = ["Omar",5]
+x = ["man",3]
+p = ["patrick",9]
+o = ["pat",18]
 
 
+# #print(y)
+write_json(y,"Test 1")
+write_json(x,"Test 1")
+write_json(p,"Test 1")
+write_json(o,"Test 2")
 
-#jsonPlot("sample.json")
+jsonPlot("sample.json")
 
-
-#Tentative sqlite #################################################################
-
-
-# #Cette fonction se connecte a la bdd si elle existe, sinon elle la creer 
-# def create_connection(db_file):
-#     """ create a database connection to a SQLite database """
-#     conn = None
-#     try:
-#         conn = sqlite3.connect(db_file)
-#         print(sqlite3.version)
-#     except sqlite3.Error as e:
-#         print(e)
-#         print("Creating database")
-#         create_connection(r"pythonsqlite.db")
-#         conn = sqlite3.connect(db_file)
-#     return conn 
-    
-    # finally:
-    #     if conn:
-    #         conn.close()
-
-
-# if __name__ == '__main__':
-#     create_connection(r"pythonsqlite.db")
-
-# #Verifie si les 3 tables existent ,les creer si elle n'existent pas 
-# def checkTable(conn) :
-#     c = conn.cursor()
-    
-    ## POUR QUIZZ
-    # c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Quizz' ''')
-    # if c.fetchone()[0]==1 : {
-	#     print('Quizz Table exists.')
-    # }
-    # else :
-    #     print('Creating Table')
-    # c.execute(''' CREATE TABLE Quizz() )
-        
-    # ##Pour candidat 
-
-    # c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Candidat' ''')
-    # if c.fetchone()[0]==1 : 
-    #     print('Candidat Table exists.')
-    # else :
-    #     print('Creating Table')
-
-    # ##POUR GRADE
-
-    # c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Grade' ''')
-    # if c.fetchone()[0]==1 : 
-    #     print('Grade Table exists.')
-    # else :
-    #     print('Creating Table')
-
-
-
-        
-
-# def writeData (data,table,bdd) :
-#     print("writing")
-#     conn = create_connection(bdd)
