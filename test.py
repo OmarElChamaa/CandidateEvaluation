@@ -9,12 +9,11 @@ solution = sys.argv[1]
 #on recupere le nom du candidat
 candidate = sys.argv[2]
 
-
-#bdd = sys.argv[3]
+bdd = sys.argv[3]
 
 import solution 
 
-
+print("in test.py")
 
 def testSolution() :
     testsPassed = 0
@@ -30,8 +29,7 @@ def testSolution() :
     return testsPassed 
 
 
-data ={   
-    'Name': candidate, 
-    'Grade' :testSolution() , 
-    }
-plotter.write_json(data,"Test 1")
+#on creer un nouveau candidat 
+c = plotter.Candidat(candidate,testSolution())
+
+c.write_json()
