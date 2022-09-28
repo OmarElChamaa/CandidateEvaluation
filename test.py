@@ -1,23 +1,27 @@
 #Prend 1 seul argument, la solution du candidats a tester 
 
 import sys
+import solution 
 import plotter 
 
-#on recupere le nom du fichier 
-solution = sys.argv[1]
+
+
+#on recupere le chemin vers le fichier solution du candidat   
+# solution = sys.argv[1]
 
 #on recupere le nom du candidat
 candidate = sys.argv[2]
 
 bdd = sys.argv[3]
 
-import solution 
 
 print("in test.py")
 
+testName = "Test 1"
+tests = 4 
+
 def testSolution() :
     testsPassed = 0
-    tests = 4   
     if solution.addition(1,1)==2 : 
         testsPassed+=1
     if solution.soustraction(2,1)==1 : 
@@ -30,6 +34,16 @@ def testSolution() :
 
 
 #on creer un nouveau candidat 
-c = plotter.Candidat(candidate,testSolution())
+c = plotter.Candidat(candidate,testSolution(),"Test 1")
+c2 = plotter.Candidat("C2",10,"Test 1")
+c3 = plotter.Candidat("C3",9,"Test 1")
+c4 = plotter.Candidat("C2",2,"Test 2")
+
+t = plotter.Test(testName,tests)
 
 c.write_json()
+c2.write_json()
+c3.write_json()
+c4.write_json()
+
+t.write_json()

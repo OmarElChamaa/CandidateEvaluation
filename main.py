@@ -32,11 +32,14 @@ bdd = 'sample.json'
 repoLink = 'git@github.com:thrichert/capcode-candidate.git'
 repoName = 'capcode-candidate'
 
-commandLineArg =".\\" +testfile + " " + ".\\"+repoName+"\\" +solutionFile + " " + "Omar" + " " + "sample.json"
+commandLineArg =".\\" +testfile + " " + ".\\" +solutionFile + " " + "Omar" + " " + "sample.json"
 print("Command line arg is : ", commandLineArg)
 
 
 repo = git.Repo.clone_from(repoLink,repoName)
+
+#On deplace le fichier de solution du candidat pour faciliter son import plus tard dans test.py
+os.replace(".\\"+repoName+"\\" +solutionFile , ".\\" +solutionFile)
 
 def test_solution() : 
    print("Checking candidate's solution \n")
