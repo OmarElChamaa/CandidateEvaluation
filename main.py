@@ -1,4 +1,3 @@
-from email import parser
 import os 
 import git 
 import argparse
@@ -33,7 +32,7 @@ def main() -> int :
    # repoLink = 'git@github.com:thrichert/capcode-candidate.git'
    # repoName = 'capcode-candidate'
 
-   commandLineArg =".\\" +testFile + " " + ".\\" +solutionFile + " " + candidateName + " " + database
+   commandLineArg =".\\" +testFile  + " " + candidateName + " " + database + " " + testFile  
    logging.debug("Command line arg is : %s", commandLineArg)
 
    repo = git.Repo.clone_from(repoLink,repoName)

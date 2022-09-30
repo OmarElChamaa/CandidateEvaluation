@@ -1,21 +1,35 @@
-import sys
 import solution 
 import plotter 
 import logging
+import candidat
+import argparse
 
 
-#on recupere le chemin vers le fichier solution du candidat   
-# solution = sys.argv[1]
+parser = argparse.ArgumentParser (description='Test Candidate answers.')
+parser.add_argument('candidateName',metavar ='candidateName',type = str ,help="Candidate name")
+parser.add_argument('database',metavar = 'database',type = str ,help="Name of new or existing database")
+parser.add_argument('testFile'    ,metavar = 'testFile',type = str,help="Name of the test file")
+args = parser.parse_args()
 
-#on recupere le nom du candidat
-candidate = sys.argv[2]
+candidateName = args.candidateName
+database = args.database 
+testFile = args.testFile
 
-bdd = sys.argv[3]
+class Test : 
+    def __init__(self,name,nbQuestions):
+        self.name = name 
+        self.nbQuestions = nbQuestions
+    def toData(self):
+        dict = {
+            "Name" : self.name,
+            "nbQuestions" : self.nbQuestions 
+        }
+        return dict
+
 
 logging.basicConfig(filename='logFile.log', encoding='utf-8', level=logging.DEBUG)
 logging.info("in test.py")
 
-testName = "Test 1"
 tests = 4 
 
 def testSolution() :
@@ -31,17 +45,12 @@ def testSolution() :
     return testsPassed 
 
 
-#on creer un nouveau candidat 
-c = plotter.Candidat(candidate,testSolution(),"Test 1")
-c2 = plotter.Candidat("C2",10,"Test 1")
-c3 = plotter.Candidat("C3",9,"Test 1")
-c4 = plotter.Candidat("C2",2,"Test 2")
 
-t = plotter.Test(testName,tests)
+c = candidat.Candidat(candidateName,testSolution(),testFile)
+data = c.toData()
+logging.info("converted data is ", data)
+plotter.Plotter.write_json(data,c.test,database)
 
-c.write_json()
-c2.write_json()
-c3.write_json()
-c4.write_json()
-
-t.write_json()
+t = Test(testFile,tests)
+data = t.toData()
+plotter.Plotter.write_json(data,testFile,database)
