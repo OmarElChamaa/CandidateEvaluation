@@ -1,9 +1,7 @@
-#Prend 1 seul argument, la solution du candidats a tester 
-
 import sys
 import solution 
 import plotter 
-
+import logging
 
 
 #on recupere le chemin vers le fichier solution du candidat   
@@ -14,8 +12,8 @@ candidate = sys.argv[2]
 
 bdd = sys.argv[3]
 
-
-print("in test.py")
+logging.basicConfig(filename='logFile.log', encoding='utf-8', level=logging.DEBUG)
+logging.info("in test.py")
 
 testName = "Test 1"
 tests = 4 
