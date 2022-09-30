@@ -1,9 +1,9 @@
 from doctest import testfile
+from email import parser
 from fileinput import filename
 import os 
 import git 
-import sys 
-import subprocess
+import argparse
 
 
 
@@ -16,9 +16,9 @@ import subprocess
 # #nom de la bdd sur laquelle on compte stocker les infos (une bdd pour tous les test ou une pour chacun ?)
 
 
-solutionFile = "solution.py"
-testfile = "test.py"
-bdd = 'sample.json'
+# solutionFile = "solution.py"
+# testfile = "test.py"
+# bdd = 'sample.json'
 
 # if len(sys.argv) < 7 :
 #    raise TypeError("Pas assez d'arguments, il en faut 6")
@@ -26,13 +26,31 @@ bdd = 'sample.json'
 # if len(sys.argv) > 7  : 
 #    print("Trop d'arguments, seulement les 5 premiers seront pris en compte  ")
 
+#init parser 
+parser = argparse.ArgumentParser (description='Evaluate a candidate.')
 
+
+parser.add_argument('repoLink',metavar = 'repoLink',type = str ,help="Valid link to candidate git repo")
+parser.add_argument('repoName',metavar = 'repoName',type = str ,help="Valid name of the candidate git repo")
+parser.add_argument('candidateName',metavar ='candidateName',type = str ,help="Candidate name")
+parser.add_argument('solutionFile',metavar ='solutionFile',type = str ,help="Name of the candidates solution file")
+parser.add_argument('testFile'    ,metavar = 'testFile',type = str,help="Name of the test file")
+parser.add_argument('database',metavar = 'database',type = str ,help="Name of new or existing database")
+
+args = parser.parse_args()
+
+repoLink = args.repoLink
+repoName = args.repoName
+candidateName = args.candidateName
+solutionFile = args.solutionFile
+testFile = args.testFile
+database = args.database 
 
 #on utilise les liens ssh pour clone les projets des candidats 
-repoLink = 'git@github.com:thrichert/capcode-candidate.git'
-repoName = 'capcode-candidate'
+# repoLink = 'git@github.com:thrichert/capcode-candidate.git'
+# repoName = 'capcode-candidate'
 
-commandLineArg =".\\" +testfile + " " + ".\\" +solutionFile + " " + "Omar" + " " + "sample.json"
+commandLineArg =".\\" +testFile + " " + ".\\" +solutionFile + " " + candidateName + " " + database
 print("Command line arg is : ", commandLineArg)
 
 
