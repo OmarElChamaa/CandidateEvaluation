@@ -41,13 +41,14 @@ def main() -> int :
    # repoLink = 'git@github.com:thrichert/capcode-candidate.git'
    # repoName = 'capcode-candidate'
 
+   print("ici")
    # commandLineArg =".\\" +testFile  + " " + candidateName + " " + database + " " + testFile  
    commandLineArg = args[0]
    repoLink = args[1]
    repoName = args[2]
    solutionFile = args[3]
 
-   logging.debug("Command line arg is : %s", commandLineArg)
+   logging.debug("Command line arg in main is : %s", commandLineArg)
 
    repo = git.Repo.clone_from(repoLink,repoName)
 
