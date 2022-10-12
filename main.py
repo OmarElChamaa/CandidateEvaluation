@@ -16,9 +16,9 @@ def main() -> int:
     #So the user can choose to have a gui or not, when gui is enabled, ignore all other arguments if there are any
     subparser = parser.add_subparsers(dest='option')
 
-    term = subparser.add_parser('--term')
+    term = subparser.add_parser('term')
 
-    term.add_argument('--gui',action = 'store_true',help="Enable a graphical interface for input")
+   #  term.add_argument('--gui',action = 'store_true',help="Enable a graphical interface for input")
     term.add_argument('repoLink',metavar = 'repoLink',type = str ,help="Valid link to candidate git repo")
     term.add_argument('repoName',metavar = 'repoName',type = str ,help="Valid name of the candidate git repo")
     term.add_argument('candidateName',metavar ='candidateName',type = str ,help="Candidate name")
@@ -27,11 +27,6 @@ def main() -> int:
     term.add_argument('database',metavar = 'database',type = str ,help="Name of new or existing database")
 
     args = parser.parse_args()
-
-
-
-    useType = args.useType
-    logging.debug("Use type value : " + useType)
 
 
     if (args.option == '--term'):
@@ -51,13 +46,6 @@ def main() -> int:
         repoLink = gui.return_fields[1]
         repoName = gui.return_fields[2]
         solutionFile = gui.return_fields[3]
-
-
-
-
-
-
-
 
     # on utilise les liens ssh pour clone les projets des candidats
     # repoLink = 'git@github.com:thrichert/capcode-candidate.git'
