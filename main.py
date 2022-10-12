@@ -36,7 +36,7 @@ def main() -> int:
         solutionFile = args.solutionFile
         testFile = args.testFile
         database = args.database
-        commandLineArg = ".\\" + testFile + " " + candidateName + " " + database + " " + testFile
+        commandLineArg = ".\\" + testFile + " " + repoName +" "+candidateName + " " + database + " " + testFile
     else:
         logging.debug("graphical mode")
         gui = Interface()

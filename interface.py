@@ -67,7 +67,7 @@ class Interface(tk.Tk):
         database = entries[5][1].get()
         logging.debug('database is ' + database)
 
-        commandLineArg = ".\\" + testFile + " " + firstName + " " + database + " " + testFile
+        commandLineArg = ".\\" + testFile + " " +repoName+ " "+ firstName + " " + database + " " + testFile
         logging.debug("Command line arg is : %s", commandLineArg)
         print(commandLineArg)
 
