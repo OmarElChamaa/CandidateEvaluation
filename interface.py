@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(filename='logFile.log', encoding='utf-8', level=logging.DEBUG)
 
-fields = 'First Name', 'Last Name', 'Repo Link', 'Repo Name', 'Candidate File', \
+fields = 'Name (firstname_lastname)', 'Repo Link', 'Repo Name', 'Candidate File', \
          'Test File', 'Database (json)'
 
 
@@ -53,25 +53,22 @@ class Interface(tk.Tk):
         firstName = entries[0][1].get()
         logging.debug('first name is ' + firstName)
 
-        lastName = entries[1][1].get()
-        logging.debug('lastName is ' + lastName)
-
-        repoLink = entries[2][1].get()
+        repoLink = entries[1][1].get()
         logging.debug('repoLink is ' + repoLink)
 
-        repoName = entries[3][1].get()
+        repoName = entries[2][1].get()
         logging.debug('repoName is ' + repoName)
 
-        solutionFile = entries[4][1].get()
+        solutionFile = entries[3][1].get()
         logging.debug('solutionFile is ' + solutionFile)
 
-        testFile = entries[5][1].get()
+        testFile = entries[4][1].get()
         logging.debug('testFile is ' + testFile)
 
-        database = entries[6][1].get()
+        database = entries[5][1].get()
         logging.debug('database is ' + database)
 
-        commandLineArg = ".\\" + testFile + " " + firstName + lastName + " " + database + " " + testFile
+        commandLineArg = ".\\" + testFile + " " + firstName + " " + database + " " + testFile
         logging.debug("Command line arg is : %s", commandLineArg)
         print(commandLineArg)
 
