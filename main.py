@@ -18,7 +18,6 @@ def main() -> int:
 
     term = subparser.add_parser('term')
 
-   #  term.add_argument('--gui',action = 'store_true',help="Enable a graphical interface for input")
     term.add_argument('repoLink',metavar = 'repoLink',type = str ,help="Valid link to candidate git repo")
     term.add_argument('repoName',metavar = 'repoName',type = str ,help="Valid name of the candidate git repo")
     term.add_argument('candidateName',metavar ='candidateName',type = str ,help="Candidate name")
@@ -29,7 +28,7 @@ def main() -> int:
     args = parser.parse_args()
 
 
-    if (args.option == '--term'):
+    if (args.option == 'term'):
         logging.debug("terminal mode ")
         repoLink = args.repoLink
         repoName = args.repoName

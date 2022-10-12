@@ -11,7 +11,6 @@ fields = 'Name (firstname_lastname)', 'Repo Link', 'Repo Name', 'Candidate File'
 class Interface(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        # self.root = root
         self.title("CapCode")
         entries = []
         for field in fields:
