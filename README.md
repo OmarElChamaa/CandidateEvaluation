@@ -16,3 +16,8 @@ Terminal
     solutionFile : Nom du fichier du candidat qu'il faut tester 
     testFile : Fichier qui lancera des tests sur solutionFile 
     database : Nom d'une bdd nouvelle ou existante (json)
+
+
+Améliorations à faire : 
+-Pour le moment, le fichier du candidat doit avoir le nom solution.py car on l'import dans test.py, on pourrait executer un py et vérifier les sorties 
+- non insertion doublons dans json (Je pensait avoir deja fait)
